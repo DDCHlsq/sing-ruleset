@@ -3,39 +3,43 @@ name: Compile and Push RuleSet
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *' # 每天在 UTC 时间 3:00 AM 运行
+    - cron: '0 0 * * *' # 每天在 GMT+8 时间 8:00 AM 运行
 
 jobs:
   build-and-push-ruleset:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
+    - name: Read Sing-Box version
+      run: |
+        echo "SING_BOX_VERSION=$(cat version.txt)" >> $GITHUB_ENV
+
     - name: Set up Python 3.9
       uses: actions/setup-python@v5
       with:
         python-version: '3.9'
-        
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install requests
-        
+
     - name: Generate JSON Configs
-      run: python main.py # 运行 main.py 来生成 JSON 文件
+      run: python main.py # 运行 main.py 来生成规则的 JSON 文件
 
     - name: Install sing-box
       run: |
-        wget https://github.com/SagerNet/sing-box/releases/download/v1.8.8/sing-box-1.8.8-linux-amd64.tar.gz
-        tar -xzf sing-box-1.8.8-linux-amd64.tar.gz
-        echo "$PWD/sing-box-1.8.8-linux-amd64" >> $GITHUB_PATH
+        wget https://github.com/SagerNet/sing-box/releases/download/v${{ env.SING_BOX_VERSION }}/sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64.tar.gz
+        tar -xzf sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64.tar.gz
+        echo "$PWD/sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64" >> $GITHUB_PATH
 
     - name: Compile JSON to SRS
       run: |
         for file in $(ls *.json); do
-          ./sing-box-1.8.8-linux-amd64/sing-box rule-set compile --output "${file%.json}.srs" "$file"
+          ./sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64/sing-box rule-set compile --output "${file%.json}.srs" "$file"
         done
 
     - name: Commit and Push
