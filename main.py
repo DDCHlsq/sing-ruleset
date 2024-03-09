@@ -51,4 +51,18 @@ def convert_config(ruleName):
 
 
 if __name__ == '__main__':
-    convert_config("icloud")
+    ruleNameList = [
+        "direct",
+        "proxy",
+        "reject",
+        "private",
+        "apple",
+        "icloud",
+        "google",
+        "gfw",
+        "tld-not-cn",
+        "telegramcidr",
+        "cncidr"
+    ]
+    for ruleName in ruleNameList:
+        convert_config(ruleName)
