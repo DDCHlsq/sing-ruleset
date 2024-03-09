@@ -1,6 +1,7 @@
 name: Compile and Push RuleSet
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 3 * * *' # 每天在 UTC 时间 3:00 AM 运行
 
