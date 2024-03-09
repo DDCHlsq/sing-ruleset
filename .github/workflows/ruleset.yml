@@ -40,14 +40,16 @@ jobs:
 
     - name: Commit and Push
       run: |
+        # 设置Git用户信息
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        git fetch --all
-        git checkout ruleset || git checkout --orphan ruleset
-        git rm -rf .
-        git clean -fd
-        shopt -s extglob
-        rm -rf !("*.srs")
+        # 检出一个全新的临时分支
+        git checkout --orphan temp-branch
+        # 添加所有.srs文件
         git add *.srs
-        git commit -m "Update ruleset" || echo "No changes to commit"
-        git push origin ruleset --force
+        # 提交更改
+        git commit -m "Auto-update ruleset"
+        # 将当前临时分支推送到远程的ruleset分支，创建一个新的ruleset分支
+        git push --set-upstream origin temp-branch:ruleset
+        # 清理操作
+        git branch -D temp-branch # 删除本地的临时分支
