@@ -45,7 +45,7 @@ jobs:
         git checkout --orphan ruleset-temp
         git reset --hard
         git commit --allow-empty -m "Init"
-        git checkout main
+        git checkout master
         git branch -D ruleset-only || true
         git checkout -b ruleset-only
         git add *.srs
