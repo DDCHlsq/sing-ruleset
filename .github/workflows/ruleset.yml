@@ -42,12 +42,11 @@ jobs:
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        git checkout --orphan ruleset-temp
+        git fetch origin ruleset:ruleset || true
+        git checkout ruleset || git checkout --orphan ruleset
         git reset --hard
-        git commit --allow-empty -m "Init"
-        git checkout master
-        git branch -D ruleset-only || true
-        git checkout -b ruleset-only
+        git rm -r --cached .
+        git clean -fdx
         git add *.srs
-        git commit -m "Update ruleset"
-        git push origin ruleset-only --force
+        git commit -m "Update ruleset" || echo "No changes to commit"
+        git push origin ruleset --force
