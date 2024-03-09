@@ -45,7 +45,7 @@ jobs:
         git fetch --all
         git checkout ruleset || git checkout --orphan ruleset
         git rm -rf .
-        git clean -fdx
+        git clean -fd
         shopt -s extglob
         rm -rf !("*.srs")
         git add *.srs
