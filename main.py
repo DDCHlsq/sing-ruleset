@@ -17,7 +17,7 @@ def convert_config(ruleName):
         return
 
     domain = []
-    domain_regex = []
+    domain_suffix = []
     ip_cidr = []
 
     for line in response.text.splitlines():
@@ -26,7 +26,7 @@ def convert_config(ruleName):
         elif line.startswith('DOMAIN-SUFFIX,'):
             suffix = line.split(',')[1]
             domain.append(suffix)
-            domain_regex.append(f".+\\.{suffix}")
+            domain_suffix.append(f".{suffix}")
         elif line.startswith('IP-CIDR,') or line.startswith('IP-CIDR6,'):
             ip_cidr.append(line.split(',')[1])
         else:
@@ -37,7 +37,7 @@ def convert_config(ruleName):
         "rules": [
             {
                 "domain": domain,
-                "domain_regex": domain_regex,
+                "domain_suffix": domain_suffix,
                 "ip_cidr": ip_cidr,
                 "invert": False
             }
