@@ -50,6 +50,7 @@ jobs:
         mv *.srs ruleset
         cd ruleset
         # 上传二进制规则
+        git init
         git remote add origin https://github-action:$GITHUB_TOKEN@github.com/DDCHlsq/sing-ruleset.git
         git branch -M ruleset
         git add .
