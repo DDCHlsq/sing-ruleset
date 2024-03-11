@@ -33,9 +33,9 @@
 
 ## 示例配置
 
-遵循 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 提供的白名单配置方法，下面给出对应的 sing-box 的白名单路由配置（即没有命中的流量通通走代理）。
+遵循 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 提供的白名单配置方法，下面给出对应的 [sing-box](https://github.com/SagerNet/sing-box) 的白名单路由配置（即没有命中的流量通通走代理）。
 
-这里的配置应该填入 sing-box 配置中的 `route` 模块。
+这里的配置应该填入 [sing-box](https://github.com/SagerNet/sing-box) 配置中的 `route` 模块。
 
 **特别说明**：原配置中，设置了 `google` 这个规则走直连，经测试去除了这个配置。
 
@@ -43,7 +43,7 @@
 {
   "rules": [
     {
-      "port": 53,
+      "protocol": "dns",
       "outbound": "dns-out"
     },
     {
