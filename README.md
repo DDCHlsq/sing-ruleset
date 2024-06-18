@@ -6,6 +6,13 @@
 
 ## 二进制规则
 
+本项目中包含了来自多个来源收集的 PCDN 以及 HTTP DNS 域名规则，分别为：
+
+- PCDN 域名二进制规则
+  - https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/pcdn.srs
+- HTTP DNS 域名二进制规则
+  - https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/httpdns.srs
+
 本项目的 `ruleset` 分支中包含了 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 中提供的 10 种规则，分别为：
 
 - 直连域名二进制规则 direct.srs
