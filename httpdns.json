@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "httpdns.pro",
+        "httpdns.c.cdnhwc2.com",
+        "httpdns.huaweicloud.com",
+        "httpdns-browser.platform.dbankcloud.cn",
+        "httpdns-platform-dbankcloud-com-drcn.wec.dbankedge.cn",
+        "httpdns.platform.dbankcloud.com",
+        "httpdns.alicdn.com",
+        "httpdns-api.aliyuncs.com",
+        "httpdns-sc.aliyuncs.com",
+        "httpsdns.baidu.com",
+        "httpdns.baidu.com",
+        "httpdns.baidubce.com",
+        "hdns.ksyun.com",
+        "apidns.kwd.inkuai.com",
+        "httpdns.kwd.inkuai.com",
+        "httpdns.bilivideo.com",
+        "dns.jd.com",
+        "dns.weixin.qq.com.cn",
+        "dns.weixin.qq.com",
+        "httpdns.kg.qq.com",
+        "httpdns.push.oppomobile.com",
+        "httpdns.push.heytapmobi.com",
+        "httpdns.ocloud.heytapmobi.com",
+        "ocloud-httpdns-cn.heytapmobi.com",
+        "httpdns.zybang.com",
+        "public.144dns.com",
+        "httpdns.volcengineapi.com",
+        "httpdns.music.163.com",
+        "lofter.httpdns.c.163.com",
+        "httpdns.yunxindns.com",
+        "httpdns.meituan.com",
+        "dns.weibo.cn",
+        "httpdns.cctv.com"
+      ],
+      "domain_suffix": [
+        ".httpdns.pro"
+      ],
+      "invert": false
+    }
+  ]
+}
