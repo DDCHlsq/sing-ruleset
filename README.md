@@ -88,77 +88,77 @@
       "tag": "rule-direct",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/direct.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/direct.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-proxy",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/proxy.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/proxy.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-reject",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/reject.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/reject.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-private",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/private.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/private.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-apple",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/apple.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/apple.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-icloud",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/icloud.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/icloud.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-google",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/google.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/google.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-gfw",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/gfw.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/gfw.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-tld-not-cn",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/tld-not-cn.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/tld-not-cn.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-telegramcidr",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/telegramcidr.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/telegramcidr.srs",
       "download_detour": "proxy"
     },
     {
       "tag": "rule-cncidr",
       "type": "remote",
       "format": "binary",
-      "url": "https:\/\/raw.githubusercontent.com\/DDCHlsq\/sing-ruleset\/ruleset\/cncidr.srs",
+      "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/cncidr.srs",
       "download_detour": "proxy"
     }
   ],
