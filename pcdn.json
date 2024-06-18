@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "p.tencentmusic.com",
+        "twns.p2ptun.qq.com",
+        "musicps.p2p.qq.com",
+        "stun.qqlive.qq.com",
+        "musicstun.p2p.qq.com",
+        "p2p.qq.com",
+        "p2pupdate.gamedl.qq.com",
+        "p2pupgrade.gamedl.qq.com",
+        "stun-a1.qq.com",
+        "signal.qvb.qcloud.com",
+        "slb-p2p.vcloud.ks-live.com",
+        "yximgs-webrtc.liveplay.myqcloud.com",
+        "p2p-punch.xxpkg.com",
+        "p2plog.douyucdn.cn",
+        "p2perrorlog.douyucdn.cn",
+        "p2pchunk-table.douyucdn.cn",
+        "p2pchunk-ws.douyucdn.cn",
+        "bjfesdk.douyucdn.cn",
+        "dotcounter.douyucdn.cn",
+        "sdkapi.douyucdn.cn",
+        "stun.hitv.com",
+        "p2p.tracker.tv.sohu.com",
+        "conf-darwin.xycdn.com",
+        "seeds-open.xycdn.com",
+        "ttxyajs.data.kuiniuca.com",
+        "sd-gl.xycdn.com"
+      ],
+      "domain_suffix": [
+        ".p2ptun.qq.com",
+        ".pcdn.yximgs.com",
+        ".p2p.huya.com",
+        ".stun.yfp2p.net"
+      ],
+      "domain_regex": [
+        "stun.*\\.qvb\\.qcloud\\.com",
+        "^(.+)-p2p-pull\\.(video|live)-voip\\.com$",
+        "^(.+)-p2p\\.pull\\.yximgs\\.com$",
+        "config-p2p-.*\\.vcloud\\.ks-live\\.com",
+        ".*pcdn.*\\.xxpkg\\.com",
+        "stun.*\\.douyucdn\\.cn",
+        "trk-([0-9\\-]+)\\.douyucdn\\.cn",
+        "p2pchunk-.*\\.douyucdn\\.cn",
+        "p2pable-.*\\.douyucdn\\.cn",
+        "dyp2p-.*\\.douyucdn2\\.cn",
+        "seeds.*-darwin\\.xycdn\\.com",
+        ".*-pcdn-.*\\.biliapi\\.net",
+        "stun.*\\.chat\\.bilibili\\.com"
+      ],
+      "invert": false
+    }
+  ]
+}
