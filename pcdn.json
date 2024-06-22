@@ -28,13 +28,15 @@
         "conf-darwin.xycdn.com",
         "seeds-open.xycdn.com",
         "ttxyajs.data.kuiniuca.com",
-        "sd-gl.xycdn.com"
+        "sd-gl.xycdn.com",
+        "mcdn.bilivideo.cn"
       ],
       "domain_suffix": [
         ".p2ptun.qq.com",
         ".pcdn.yximgs.com",
         ".p2p.huya.com",
-        ".stun.yfp2p.net"
+        ".stun.yfp2p.net",
+        ".mcdn.bilivideo.cn"
       ],
       "domain_regex": [
         "stun.*\\.qvb\\.qcloud\\.com",
