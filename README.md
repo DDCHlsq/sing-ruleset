@@ -6,6 +6,11 @@
 
 ## 二进制规则
 
+本项目包含收集自 lhie1 放行规则（已经被删库，可在[此处](https://cdn.jsdelivr.net/gh/dler-io/Rules@master/Clash/Provider/Special.yaml)找到遗留）的 Steam 中国大陆域名规则，为：
+
+- Steam CN 域名二进制规则
+  - https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/steamcn.srs
+
 本项目中包含了来自多个来源收集的 PCDN 以及 HTTP DNS 域名规则，分别为：
 
 - PCDN 域名二进制规则
