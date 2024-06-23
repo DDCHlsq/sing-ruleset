@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "cm.steampowered.com",
+        "ol.epicgames.com",
+        "csgo.wmsj.cn",
+        "dota2.wmsj.cn",
+        "wmsjsteam.com",
+        "dl.steam.clngaa.com",
+        "dl.steam.ksyna.com",
+        "gstore.val.manlaxy.com",
+        "st.dl.bscstorage.net",
+        "st.dl.eccdnx.com",
+        "st.dl.pinyuncloud.com",
+        "steampipe.steamcontent.tnkjmec.com",
+        "steampowered.com.8686c.com",
+        "steamstatic.com.8686c.com",
+        "steambroadcast.akamaized.net",
+        "steamcdn-a.akamaihd.net",
+        "steamcommunity-a.akamaihd.net",
+        "steamstore-a.akamaihd.net",
+        "steamusercontent-a.akamaihd.net",
+        "steamuserimages-a.akamaihd.net"
+      ],
+      "domain_suffix": [
+        ".steamcontent.com",
+        ".steamserver.net",
+        ".steamchina.com"
+      ],
+      "invert": false
+    }
+  ]
+}
