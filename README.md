@@ -59,5 +59,3 @@
 ```shell
 Usage: python3 sconfer.py <template> <inbounds> <outbounds>
 ```
-
-
