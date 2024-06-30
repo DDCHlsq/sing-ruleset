@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        // 主下载域名（PC主机共用）
+        "assets1.xboxlive.cn",
+        "assets2.xboxlive.cn",
+        "d1.xboxlive.cn",
+        "d2.xboxlive.cn",
+        "dlassets.xboxlive.cn",
+        "dlassets2.xboxlive.cn",
+        // 应用和部分PC游戏使用此域名下载
+        "dl.delivery.mp.microsoft.com",
+        "tlu.dl.delivery.mp.microsoft.com"
+        // 两组域名均能解析出国内 IP
+      ],
+      "invert": false
+    }
+  ]
+}
