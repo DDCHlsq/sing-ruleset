@@ -52,7 +52,12 @@
 
 ## 使用说明
 
-推荐遵循 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 提供的白名单配置方法，即没有命中的流量通通走代理。
+可以依照自己的需求自由使用所有规则。
 
-**特别说明**：原配置中，设置了 `google` 这个规则走直连，经测试不应该这样配置，其他配置均合理。
+如果希望免去配置的麻烦，可以尝试本项目中的 `sconfer.py` 工具，示例的 `inbounds` 和 `template` 可以直接使用，`outbounds` 还请自行依照需求更改。
+
+```shell
+Usage: sconfer.py <template> <inbounds> <outbounds>
+```
+
 
