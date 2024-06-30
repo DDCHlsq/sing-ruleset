@@ -1,0 +1,40 @@
+{
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": [
+        "JP"
+      ],
+      "default": "JP",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "selector",
+      "tag": "udp_proxy",
+      "outbounds": [
+        "proxy",
+        "JP"
+      ],
+      "default": "proxy",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "vless",
+      "tag": "JP",
+      "server": "",
+      "server_port": 443,
+      "uuid": "",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "packet_encoding": "xudp"
+    }
+  ]
+}

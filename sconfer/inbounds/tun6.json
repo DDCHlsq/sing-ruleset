@@ -1,0 +1,16 @@
+{
+  "inbounds": [
+    {
+      "tag": "tun",
+      "type": "tun",
+      "inet4_address": "172.19.0.1/30",
+      "inet6_address": "fdfe:dcba:9876::1/126",
+      "mtu": 1500,
+      "stack": "mixed",
+      "auto_route": true,
+      "strict_route": true,
+      "sniff": true,
+      "sniff_override_destination": false
+    }
+  ]
+}

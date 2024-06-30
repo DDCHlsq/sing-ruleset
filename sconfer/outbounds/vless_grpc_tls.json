@@ -1,0 +1,43 @@
+{
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": [
+        "US"
+      ],
+      "default": "JP",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "selector",
+      "tag": "udp_proxy",
+      "outbounds": [
+        "proxy",
+        "US"
+      ],
+      "default": "proxy",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "vless",
+      "tag": "US",
+      "server": "",
+      "server_port": 443,
+      "uuid": "",
+      "tls": {
+        "enabled": true,
+        "server_name": "",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "packet_encoding": "xudp",
+      "transport": {
+        "type": "grpc",
+        "service_name": ""
+      }
+    }
+  ]
+}

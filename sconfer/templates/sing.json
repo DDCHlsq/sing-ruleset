@@ -1,0 +1,337 @@
+{
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "cf",
+        "address": "https://1.1.1.1/dns-query",
+        "detour": "proxy"
+      },
+      {
+        "tag": "cf6",
+        "address": "https://[2606:4700:4700::1111]/dns-query",
+        "detour": "proxy"
+      },
+      {
+        "tag": "cftls",
+        "address": "tls://1.1.1.1",
+        "detour": "proxy"
+      },
+      {
+        "tag": "google",
+        "address": "https://8.8.8.8/dns-query",
+        "detour": "proxy"
+      },
+      {
+        "tag": "ali",
+        "address": "https://223.5.5.5/dns-query",
+        "detour": "direct"
+      },
+      {
+        "tag": "ali6",
+        "address": "https://dns.alidns.com/dns-query",
+        "address_resolver": "ali",
+        "address_strategy": "ipv6_only",
+        "detour": "direct"
+      },
+      {
+        "tag": "alitls",
+        "address": "tls://223.5.5.5",
+        "detour": "direct"
+      },
+      {
+        "tag": "refuseddns",
+        "address": "rcode://success"
+      },
+      {
+        "tag": "fakedns",
+        "address": "fakeip"
+      }
+    ],
+    "rules": [
+      {
+        "outbound": "any",
+        "server": "ali"
+      },
+      {
+        "rule_set": "rule-private",
+        "server": "ali"
+      },
+      {
+        "rule_set": [
+          "rule-reject",
+          "rule-pcdn",
+          "rule-httpdns"
+        ],
+        "server": "refuseddns"
+      },
+      {
+        "rule_set": [
+          "rule-icloud",
+          "rule-apple",
+          "rule-steamcn"
+        ],
+        "server": "ali"
+      },
+      {
+        "query_type": [
+          "HTTPS",
+          "SVCB"
+        ],
+        "rule_set": "rule-proxy",
+        "server": "refuseddns"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "rule_set": "rule-proxy",
+        "server": "fakedns"
+      },
+      {
+        "rule_set": "rule-proxy",
+        "server": "cf"
+      },
+      {
+        "rule_set": "rule-direct",
+        "server": "ali"
+      }
+    ],
+    "final": "cf",
+    "disable_cache": false,
+    "disable_expire": false,
+    "independent_cache": false,
+    "reverse_mapping": false,
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    }
+  },
+  "inbounds": [
+  ],
+  "outbounds": [
+  ],
+  "route": {
+    "rules": [
+      // NO QUIC
+      {
+        "protocol": "quic",
+        "outbound": "block"
+      },
+      // zerotier direct
+      {
+        "port": 9993,
+        "outbound": "direct"
+      },
+      // DNS 劫持
+      {
+        "protocol": "dns",
+        "outbound": "dns-out"
+      },
+      // 私有 direct
+      {
+        "rule_set": "rule-private",
+        "outbound": "direct"
+      },
+      // 去广告、拦截 PCDN、拦截 HTTP DNS
+      {
+        "rule_set": [
+          "rule-reject",
+          "rule-pcdn",
+          "rule-httpdns"
+        ],
+        "outbound": "block"
+      },
+      // 域名特例 direct 区
+      {
+        "rule_set": [
+          "rule-icloud",
+          "rule-apple",
+          "rule-steamcn",
+          "rule-xboxdlglobal",
+          "rule-xboxdlcn"
+        ],
+        "outbound": "direct"
+      },
+      // 域名 proxy 区
+      {
+        "rule_set": "rule-proxy",
+        "network": "tcp",
+        "outbound": "proxy"
+      },
+      {
+        "rule_set": "rule-proxy",
+        "network": "udp",
+        "outbound": "udp_proxy"
+      },
+      // 域名 direct 区
+      {
+        "rule_set": "rule-direct",
+        "outbound": "direct"
+      },
+      // IP proxy 区
+      {
+        "rule_set": "rule-telegramcidr",
+        "network": "tcp",
+        "outbound": "proxy"
+      },
+      {
+        "rule_set": "rule-telegramcidr",
+        "network": "udp",
+        "outbound": "udp_proxy"
+      },
+      // IP direct 区
+      {
+        "rule_set": "rule-cncidr",
+        "outbound": "direct"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct"
+      },
+      // final proxy 区
+      {
+        "network": "tcp",
+        "outbound": "proxy"
+      },
+      {
+        "network": "udp",
+        "outbound": "udp_proxy"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": "geosite-pixiv",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-pixiv.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geosite-openai",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-openai.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "geosite-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-direct",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/direct.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-proxy",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/proxy.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-reject",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/reject.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-private",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/private.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-apple",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/apple.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-icloud",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/icloud.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-tld-not-cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/tld-not-cn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-telegramcidr",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/telegramcidr.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-cncidr",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/cncidr.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-pcdn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/pcdn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-httpdns",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/httpdns.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-steamcn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/steamcn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-xboxdlcn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/xboxdlcn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "tag": "rule-xboxdlglobal",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/xboxdlglobal.srs",
+        "download_detour": "proxy"
+      }
+    ],
+    "final": "proxy",
+    "auto_detect_interface": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true
+    }
+  }
+}
