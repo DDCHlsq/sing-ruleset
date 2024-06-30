@@ -2,9 +2,16 @@
 
 本项目每天于北京时间 8:00 生成适用于 [sing-box](https://github.com/SagerNet/sing-box) 的二进制 `.srs` 格式的规则文件。
 
-本项目的源数据基于 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 项目。
+本项目的部分源数据（10 种基础分流规则）基于 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 项目。
 
 ## 二进制规则
+
+本项目包含了来自 [Xbox 下载助手](https://github.com/skydevil88/XboxDownload/blob/master/README_OpenWrt.md) 的 Xbox 域名规则，分别为：
+
+- Xbox 全球下载域名
+  - - https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/xboxdlglobal.srs
+- Xbox 中国大陆下载域名
+  - - https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/xboxdlcn.srs
 
 本项目包含收集自 lhie1 放行规则（已经被删库，可在[此处](https://cdn.jsdelivr.net/gh/dler-io/Rules@master/Clash/Provider/Special.yaml)找到遗留）的 Steam 中国大陆域名规则，为：
 
