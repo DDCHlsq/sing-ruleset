@@ -57,7 +57,7 @@
 如果希望免去配置的麻烦，可以尝试本项目中的 `sconfer.py` 工具，示例的 `inbounds` 和 `template` 可以直接使用，`outbounds` 还请自行依照需求更改。
 
 ```shell
-Usage: sconfer.py <template> <inbounds> <outbounds>
+Usage: python3 sconfer.py <template> <inbounds> <outbounds>
 ```
 
 
