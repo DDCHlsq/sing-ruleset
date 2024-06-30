@@ -27,7 +27,7 @@ def load_json(file_path):
 
 def main():
     if len(sys.argv) != 4:
-        print("Usage: sconfer.py template.json inbounds.json outbounds.json")
+        print("Usage: sconfer.py <template> <inbounds> <outbounds>")
         sys.exit(1)
 
     template_path, inbounds_path, outbounds_path = sys.argv[1], sys.argv[2], sys.argv[3]
