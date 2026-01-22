@@ -34,7 +34,9 @@
         ".p2ptun.qq.com",
         ".pcdn.yximgs.com",
         ".p2p.huya.com",
-        ".stun.yfp2p.net"
+        ".stun.yfp2p.net",
+        ".szbdyd.com",
+        ".mcdn.bilivideo.cn"
       ],
       "domain_regex": [
         "stun.*\\.qvb\\.qcloud\\.com",
