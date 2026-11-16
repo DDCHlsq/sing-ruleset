@@ -7,20 +7,20 @@ on:
 
 jobs:
   build-and-push-ruleset:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Read Sing-Box version
       run: |
         echo "SING_BOX_VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v5
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v6
       with:
-        python-version: '3.9'
+        python-version: '3.13'
 
     - name: Install dependencies
       run: |
