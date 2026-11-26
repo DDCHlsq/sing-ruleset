@@ -11,6 +11,7 @@ RULE_NAMES = (
 )
 DOMAIN_PATTERN = re.compile(r"[-\w]+(?:\.[-\w]+)*")
 IP_VERSIONS = {"IP-CIDR": 4, "IP-CIDR6": 6}
+OUTPUT_DIR = Path(__file__).resolve().parent / "build" / "upstream"
 
 
 def parse_rules(text):
@@ -66,7 +67,8 @@ def convert_config(rule_name):
     response.raise_for_status()
     config = parse_rules(response.text)
 
-    output = Path(f"{rule_name}.json")
+    output = OUTPUT_DIR / f"{rule_name}.json"
+    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
     print(f"Configuration for {rule_name!r} has been converted and saved.")
 

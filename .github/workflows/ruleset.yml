@@ -39,19 +39,27 @@ jobs:
 
     - name: Install sing-box
       run: |
-        wget https://github.com/SagerNet/sing-box/releases/download/v${{ env.SING_BOX_VERSION }}/sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64.tar.gz
-        tar -xzf sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64.tar.gz
-        echo "$PWD/sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64" >> $GITHUB_PATH
+        archive="sing-box-$SING_BOX_VERSION-linux-amd64.tar.gz"
+        wget -O "$RUNNER_TEMP/$archive" "https://github.com/SagerNet/sing-box/releases/download/v$SING_BOX_VERSION/$archive"
+        tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP"
+        echo "$RUNNER_TEMP/sing-box-$SING_BOX_VERSION-linux-amd64" >> "$GITHUB_PATH"
 
     - name: Compile all 17 rule sets
       run: |
         set -euo pipefail
-        mkdir ruleset
-        for name in alibabainc apple cncidr direct gfw google httpdns icloud \
-          pcdn private proxy reject steamcn telegramcidr tld-not-cn xboxdlcn xboxdlglobal; do
-          sing-box rule-set compile --output "ruleset/$name.srs" "$name.json"
-          test -s "ruleset/$name.srs"
-        done
+        mkdir build/srs
+        compile_rule_sets() {
+          local source_dir="$1"
+          shift
+          local name
+          for name in "$@"; do
+            sing-box rule-set compile --output "build/srs/$name.srs" "$source_dir/$name.json"
+            test -s "build/srs/$name.srs"
+          done
+        }
+        compile_rule_sets rules alibabainc httpdns pcdn steamcn xboxdlcn xboxdlglobal
+        compile_rule_sets build/upstream apple cncidr direct gfw google icloud private \
+          proxy reject telegramcidr tld-not-cn
 
     - name: Verify SRS v2 on sing-box 1.13 and 1.14
       env:
@@ -70,7 +78,7 @@ jobs:
 
         from main import parse_rules
 
-        files = sorted(Path('ruleset').glob('*.srs'))
+        files = sorted(Path('build/srs').glob('*.srs'))
         for file in files:
             with file.open('rb') as source:
                 if source.read(4) != b'SRS\x02':
@@ -109,7 +117,7 @@ jobs:
         # 设置Git用户信息
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        cd ruleset
+        cd build/srs
         # 上传二进制规则
         git init
         git remote add origin https://github-action:$GITHUB_TOKEN@github.com/DDCHlsq/sing-ruleset.git
