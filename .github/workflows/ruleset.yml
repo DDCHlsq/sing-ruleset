@@ -2,8 +2,15 @@ name: Compile and Push RuleSet
 
 on:
   workflow_dispatch:
+  push:
+    branches: [master]
+    paths: [version.txt]
   schedule:
     - cron: '0 0 * * *' # 每天在 GMT+8 时间 8:00 AM 运行
+
+concurrency:
+  group: ruleset-publication
+  cancel-in-progress: false
 
 jobs:
   build-and-push-ruleset:
@@ -45,6 +52,55 @@ jobs:
           sing-box rule-set compile --output "ruleset/$name.srs" "$name.json"
           test -s "ruleset/$name.srs"
         done
+
+    - name: Verify SRS v2 on sing-box 1.13 and 1.14
+      env:
+        COMPAT_SING_BOX_VERSION: '1.13.0'
+      run: |
+        set -euo pipefail
+        archive="sing-box-$COMPAT_SING_BOX_VERSION-linux-amd64.tar.gz"
+        wget -q -O "$RUNNER_TEMP/$archive" "https://github.com/SagerNet/sing-box/releases/download/v$COMPAT_SING_BOX_VERSION/$archive"
+        tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP"
+        python - "$RUNNER_TEMP/sing-box-$COMPAT_SING_BOX_VERSION-linux-amd64/sing-box" <<'PY'
+        import json
+        import os
+        import subprocess
+        import sys
+        from pathlib import Path
+
+        from main import parse_rules
+
+        files = sorted(Path('ruleset').glob('*.srs'))
+        for file in files:
+            with file.open('rb') as source:
+                if source.read(4) != b'SRS\x02':
+                    raise SystemExit(f'{file}: expected an SRS v2 header')
+
+        fixture = parse_rules('DOMAIN,exact.example\nDOMAIN-SUFFIX,suffix.example')
+        fixture['rules'][0]['domain_suffix'].append('.subdomain.example')
+        fixture['rules'].extend(parse_rules('IP-CIDR,192.0.2.0/24\nIP-CIDR6,2001:db8::/32')['rules'])
+        source = Path(os.environ['RUNNER_TEMP']) / 'compatibility.json'
+        target = source.with_suffix('.srs')
+        source.write_text(json.dumps(fixture), encoding='utf-8')
+        subprocess.run(['sing-box', 'rule-set', 'compile', '-o', target, source], check=True)
+
+        matches = ('exact.example', 'suffix.example', 'a.suffix.example',
+                   'a.subdomain.example', '192.0.2.5', '2001:db8::1')
+        misses = ('a.exact.example', 'notsuffix.example', 'subdomain.example',
+                  '192.0.3.5', '2001:db9::1')
+        for client in ('sing-box', sys.argv[1]):
+            subprocess.run([client, 'version'], check=True)
+            for file in files:
+                subprocess.run([client, 'rule-set', 'match', '-f', 'binary',
+                                file, 'compatibility.invalid'], check=True)
+            for address in (*matches, *misses):
+                result = subprocess.run([client, 'rule-set', 'match', '-f', 'binary',
+                                         target, address], text=True, check=True,
+                                        stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                if ('match rules.[' in result.stdout) != (address in matches):
+                    raise SystemExit(f'{client}: unexpected result for {address}: {result.stdout}')
+            print(f'{client}: read {len(files)} rule sets and passed matching checks', flush=True)
+        PY
 
     - name: Commit and Push
       env:

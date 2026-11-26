@@ -2,7 +2,9 @@
 
 本项目每天于北京时间 8:00 生成适用于 [sing-box](https://github.com/SagerNet/sing-box) 的二进制 `.srs` 格式的规则文件。
 
-本项目的部分源数据（10 种基础分流规则）基于 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 项目。
+本项目共发布 17 个规则集，使用 sing-box 1.14.4 编译为 SRS v2，适用于 sing-box 1.10 及以上版本。
+
+其中 11 个基础分流规则集基于 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 项目。
 
 ## 二进制规则
 
@@ -25,7 +27,11 @@
 - HTTP DNS 域名二进制规则
   - https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/httpdns.srs
 
-本项目的 `ruleset` 分支中包含了 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 中提供的 10 种规则，分别为：
+本项目还包含阿里巴巴内部网络分流规则 `alibabainc.srs`。
+
+- https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/alibabainc.srs
+
+本项目的 `ruleset` 分支中包含了 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules) 中提供的 11 种规则，分别为：
 
 - 直连域名二进制规则 direct.srs
   - https://raw.githubusercontent.com/DDCHlsq/sing-ruleset/ruleset/direct.srs

@@ -31,9 +31,10 @@ def parse_rules(text):
         if rule_type in ("DOMAIN", "DOMAIN-SUFFIX"):
             if not DOMAIN_PATTERN.fullmatch(value):
                 raise ValueError(f"line {number}: invalid domain {value!r}")
-            domains.append(value)
-            if rule_type == "DOMAIN-SUFFIX":
-                suffixes.append("." + value)
+            if rule_type == "DOMAIN":
+                domains.append(value)
+            else:
+                suffixes.append(value)
         elif rule_type in IP_VERSIONS:
             try:
                 prefix = ip_network(value, strict=False)
@@ -49,7 +50,7 @@ def parse_rules(text):
         raise ValueError("upstream file contains no rules")
 
     return {
-        "version": 1,
+        "version": 2,
         "rules": [{
             "domain": domains,
             "domain_suffix": suffixes,
