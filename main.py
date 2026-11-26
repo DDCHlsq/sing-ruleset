@@ -1,68 +1,78 @@
 import json
+import re
+from ipaddress import ip_network
+from pathlib import Path
+
 import requests
 
+RULE_NAMES = (
+    "direct", "proxy", "reject", "private", "apple", "icloud",
+    "google", "gfw", "tld-not-cn", "telegramcidr", "cncidr",
+)
+DOMAIN_PATTERN = re.compile(r"[-\w]+(?:\.[-\w]+)*")
+IP_VERSIONS = {"IP-CIDR": 4, "IP-CIDR6": 6}
 
-def convert_config(ruleName):
-    url = f"https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/ruleset/{ruleName}.txt"
-    try:
-        # proxies = {
-        #     'http': 'http://127.0.0.1:7890',
-        #     'https': 'http://127.0.0.1:7890',
-        # }
-        # response = requests.get(url, proxies=proxies)
-        response = requests.get(url)
-        response.raise_for_status()
-    except requests.RequestException as e:
-        print(f"Error fetching the configuration: {e}")
-        return
 
-    domain = []
-    domain_suffix = []
-    ip_cidr = []
+def parse_rules(text):
+    domains = []
+    suffixes = []
+    cidrs = []
 
-    for line in response.text.splitlines():
-        if line.startswith('DOMAIN,'):
-            domain.append(line.split(',')[1])
-        elif line.startswith('DOMAIN-SUFFIX,'):
-            suffix = line.split(',')[1]
-            domain.append(suffix)
-            domain_suffix.append(f".{suffix}")
-        elif line.startswith('IP-CIDR,') or line.startswith('IP-CIDR6,'):
-            ip_cidr.append(line.split(',')[1])
+    for number, raw_line in enumerate(text.splitlines(), 1):
+        line = raw_line.strip()
+        if not line or line.startswith(("#", "//")):
+            continue
+
+        rule_type, separator, value = line.partition(",")
+        rule_type, value = rule_type.strip(), value.strip()
+        if not separator or not value:
+            raise ValueError(f"line {number}: missing rule type or value")
+
+        if rule_type in ("DOMAIN", "DOMAIN-SUFFIX"):
+            if not DOMAIN_PATTERN.fullmatch(value):
+                raise ValueError(f"line {number}: invalid domain {value!r}")
+            domains.append(value)
+            if rule_type == "DOMAIN-SUFFIX":
+                suffixes.append("." + value)
+        elif rule_type in IP_VERSIONS:
+            try:
+                prefix = ip_network(value, strict=False)
+            except ValueError as error:
+                raise ValueError(f"line {number}: invalid CIDR {value!r}") from error
+            if "/" not in value or prefix.version != IP_VERSIONS[rule_type]:
+                raise ValueError(f"line {number}: invalid {rule_type} prefix {value!r}")
+            cidrs.append(value)
         else:
-            print(f"Skipped unknown rule type: {line}")
+            raise ValueError(f"line {number}: unsupported rule type {rule_type!r}")
 
-    config = {
+    if not (domains or suffixes or cidrs):
+        raise ValueError("upstream file contains no rules")
+
+    return {
         "version": 1,
-        "rules": [
-            {
-                "domain": domain,
-                "domain_suffix": domain_suffix,
-                "ip_cidr": ip_cidr,
-                "invert": False
-            }
-        ]
+        "rules": [{
+            "domain": domains,
+            "domain_suffix": suffixes,
+            "ip_cidr": cidrs,
+            "invert": False,
+        }],
     }
 
-    with open(f"{ruleName}.json", 'w') as f:
-        json.dump(config, f, indent=2)
 
-    print(f"Configuration for '{ruleName}' has been converted and saved.")
+def convert_config(rule_name):
+    url = f"https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/ruleset/{rule_name}.txt"
+    response = requests.get(url, timeout=(10, 60))
+    response.raise_for_status()
+    config = parse_rules(response.text)
+
+    output = Path(f"{rule_name}.json")
+    output.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
+    print(f"Configuration for {rule_name!r} has been converted and saved.")
 
 
-if __name__ == '__main__':
-    ruleNameList = [
-        "direct",
-        "proxy",
-        "reject",
-        "private",
-        "apple",
-        "icloud",
-        "google",
-        "gfw",
-        "tld-not-cn",
-        "telegramcidr",
-        "cncidr"
-    ]
-    for ruleName in ruleNameList:
-        convert_config(ruleName)
+if __name__ == "__main__":
+    for rule_name in RULE_NAMES:
+        try:
+            convert_config(rule_name)
+        except (requests.RequestException, ValueError) as error:
+            raise SystemExit(f"{rule_name}: {error}") from error

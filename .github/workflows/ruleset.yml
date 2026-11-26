@@ -36,10 +36,14 @@ jobs:
         tar -xzf sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64.tar.gz
         echo "$PWD/sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64" >> $GITHUB_PATH
 
-    - name: Compile JSON to SRS
+    - name: Compile all 17 rule sets
       run: |
-        for file in $(ls *.json); do
-          ./sing-box-${{ env.SING_BOX_VERSION }}-linux-amd64/sing-box rule-set compile --output "${file%.json}.srs" "$file"
+        set -euo pipefail
+        mkdir ruleset
+        for name in alibabainc apple cncidr direct gfw google httpdns icloud \
+          pcdn private proxy reject steamcn telegramcidr tld-not-cn xboxdlcn xboxdlglobal; do
+          sing-box rule-set compile --output "ruleset/$name.srs" "$name.json"
+          test -s "ruleset/$name.srs"
         done
 
     - name: Commit and Push
@@ -49,9 +53,6 @@ jobs:
         # 设置Git用户信息
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        # 移动srs文件到新文件夹
-        mkdir ruleset
-        mv *.srs ruleset
         cd ruleset
         # 上传二进制规则
         git init
